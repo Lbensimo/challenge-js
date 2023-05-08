@@ -1,0 +1,79 @@
+body {
+  background: rgb(176, 149, 30);
+}
+
+button.reset-btn {
+  background-color: #e74c3c;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 300px;
+  height: 60px;
+}
+
+button.reset-btn:hover {
+  background-color: #c0392b;
+}
+
+#gameboard{
+  width: auto;
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(10, 4vw);
+  grid-template-rows: repeat(10, 4vw);
+  grid-template-areas:
+    "a a a a a a a a a a"
+    "b b b b b b b b b b"
+    "c c c c c c c c c c"
+    "d d d d d d d d d d"
+    "e e e e e e e e e e"
+    "f f f f f f f f f f"
+    "g g g g g g g g g g"
+    "h h h h h h h h h h"
+    "i i i i i i i i i i"
+    "j j j j j j j j j j";
+}
+
+#gameboard > div {
+  height: 4vw;
+  background-color: transparent;
+  border: solid 1px black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#gameboard>div.valeur-1{
+  background-color: gray;
+}
+
+#gameboard>div.valeur-2{
+  position: relative;
+  z-index: 2;
+  background-color: red;
+}
+
+#gameboard>div.valeur-3{
+  position: relative;
+  z-index: 3;
+  background-color: green;
+}
+
+#gameboard>div.valeur-4{
+  position: relative;
+  z-index: 1;
+  background-color: brown;
+}
+#gameboard>div.valeur-5{
+  background-color: rgb(0, 255, 251);
+}

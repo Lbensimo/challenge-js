@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/static/css/main.css"></script>
+    <script src="/static/js/index.js"></script>
+  <title>Superheroes Data</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+  
+</head>
+<body>
+  <h1>Superheroes Data</h1>
+  <input type="text" id="search-input" placeholder="Search by name...">
+  <label for="page-size">Page Size:</label>
+  <select id="page-size">
+    <option value="10">10</option>
+    <option value="20" selected>20</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+    <option value="all">All</option>
+  </select>
+  <table id="superheroes-table">
+    <thead>
+      <tr>
+        <th><button id="sortByIconBtn">Icon</button></th>
+        <th><button id="sortByNameBtn">Name</button></th>
+        <th><button id="sortByFull NameBtn">Full Name</button></th>
+        <th><button id="sortByIntelligenceBtn">Intelligence</button></th>
+        <th><button id="sortByStrengthBtn">Strength</button></th>
+        <th><button id="sortBySpeedBtn">Speed</button></th>
+        <th><button id="sortByDurabilityBtn">Durability</button></th>
+        <th><button id="sortByPowerBtn">Power</button></th>
+        <th><button id="sortByCombatBtn">Combat</button></th>
+        <th><button id="sortByRaceBtn">Race</button></th>
+        <th><button id="sortByGenderBtn">Gender</button></th>
+        <th><button id="sortByHeightBtn">Height</button></th>
+        <th><button id="sortByWeightBtn">Weight</button></th>
+        <th><button id="sortByPlace of BirthBtn">Place of Birth</button></th>
+        <th><button id="sortByAlignmentBtn">Alignment</button></th>
+      </tr>
+	  
+    </thead>
+    <tbody id="superheroes-table-body"></tbody>
+  </table>
+  <script>
+    // Fetch the data from the API
+    const API_URL = 'https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json';
+    fetch(API_URL)
+      .then(response => response.json())
+      .then(data => {
+        const tableBody = document.getElementById('superheroes-table-body');
+        const pageSizeSelect = document.getElementById('page-size');
+        let pageSize = parseInt(pageSizeSelect.value);
+        let currentPage = 1;
+
+    const searchInput = document.querySelector("#search-input");
+      searchInput.addEventListener("input", () => {
+      const searchText = searchInput.value.toLowerCase();
+      const filteredHeroes = data.filter(hero => hero.name.toLowerCase().includes(searchText));
+      filteredData = filteredHeroes.slice(0, pageSize);
+      updateTable(filteredData);
+      updatePagination(currentPage, filteredData.length, pageSize);
+    });
+
+  // document.getElementById("sortByNameBtn").addEventListener("click", sortByName);
+  const sbnb = document.querySelector("#sortByNameBtn");
+  sbnb.addEventListener("click", function() {
+  data.reverse();
+  updateTable(data);
+});
+
+        // Function to render the table row with the superhero data
+        function renderTableRow(superhero) {
+          const tr = document.createElement('tr');
+          const iconTd = document.createElement('td');
+          const iconImg = document.createElement('img');
+          iconImg.src = superhero.images.xs;
+          iconTd.appendChild(iconImg);
+          const nameTd = document.createElement('td');
+          nameTd.textContent = superhero.name;
+          const fullNameTd = document.createElement('td');
+          fullNameTd.textContent = superhero.biography.fullName;
+          const intelligenceTd = document.createElement('td');
+          intelligenceTd.textContent = superhero.powerstats.intelligence;
+          const strengthTd = document.createElement('td');
+          strengthTd.textContent = superhero.powerstats.strength;
+          const speedTd = document.createElement('td');
+          speedTd.textContent = superhero.powerstats.speed;
+          const durabilityTd = document.createElement('td');
+          durabilityTd.textContent = superhero.powerstats.durability;
+          const powerTd = document.createElement('td');
+          powerTd.textContent = superhero.powerstats.power;
+          const combatTd = document.createElement('td');
+          combatTd.textContent = superhero.powerstats.combat;
+          const raceTd = document.createElement('td');
+          raceTd.textContent = superhero.appearance.race;
+const genderTd = document.createElement('td');
+genderTd.textContent = superhero.appearance.gender;
+const heightTd = document.createElement('td');
+heightTd.textContent = superhero.appearance.height[1];
+const weightTd = document.createElement('td');
+weightTd.textContent = superhero.appearance.weight[1];
+const placeOfBirthTd = document.createElement('td');
+placeOfBirthTd.textContent = superhero.biography.placeOfBirth;
+const alignmentTd = document.createElement('td');
+alignmentTd.textContent = superhero.biography.alignment;
+// Append all the cells to the row
+tr.appendChild(iconTd);
+tr.appendChild(nameTd);
+tr.appendChild(fullNameTd);
+tr.appendChild(intelligenceTd);
+tr.appendChild(strengthTd);
+tr.appendChild(speedTd);
+tr.appendChild(durabilityTd);
+tr.appendChild(powerTd);
+tr.appendChild(combatTd);
+tr.appendChild(raceTd);
+tr.appendChild(genderTd);
+tr.appendChild(heightTd);
+tr.appendChild(weightTd);
+tr.appendChild(placeOfBirthTd);
+tr.appendChild(alignmentTd);
+// Append the row to the table body
+tableBody.appendChild(tr);
+}
+
+    // Function to render the table with the superheroes data
+    function renderTable(data) {
+      tableBody.innerHTML = '';
+      const startIndex = (currentPage - 1) * pageSize;
+      const endIndex = currentPage * pageSize;
+      const superheroesData = data.slice(startIndex, endIndex);
+      superheroesData.forEach(superhero => {
+        renderTableRow(superhero);
+      });
+    }
+
+    // Function to handle the page size select change event
+    function handlePageSizeChange() {
+      currentPage = 1;
+      pageSize = parseInt(pageSizeSelect.value);
+      renderTable(data);
+    }
+
+    // Event listener for page size select change
+    pageSizeSelect.addEventListener('change', handlePageSizeChange);
+
+    // Render the initial table
+    renderTable(data);
+  });
+
+</script>
+</body>
+</html>
+
+
+		  
